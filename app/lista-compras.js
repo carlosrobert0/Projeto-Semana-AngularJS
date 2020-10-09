@@ -4,7 +4,7 @@
   angular.module('listaTarefasApp', [])
 
   angular.module('listaTarefasApp')
-    .controller('listaTarefasController', listaTarefasController)
+    .controller('ListaTarefasController', listaTarefasController)
 
   listaTarefasController.$inject = []
 
