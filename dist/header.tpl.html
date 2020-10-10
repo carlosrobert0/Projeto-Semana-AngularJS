@@ -10,26 +10,33 @@
   <div class="collapse navbar-collapse" id="navbarColor01">
     <ul class="navbar-nav mr-auto">
       <li class="nav-item">
-        <a class="nav-link c-pointer" ng-class="{'active': vm.logado}">
+        <a class="nav-link c-pointer" ng-click="vm.go('/home')" ng-class="{'active': page === 'home'}">
           Home
         </a>
       </li>
+      <!-- <li class="nav-item">
+        <a class="nav-link c-pointer" ng-click="vm.serviceF()" ng-class="{'active': vm.logado}">
+          service ?
+        </a>
+      </li> -->
     </ul>
     <ul class="navbar-nav mr-0">
-      <li class="nav-item" ng-show="vm.logado">
-        <a class="nav-link c-pointer" ng-click="vm.logado = false;">
+      <li class="nav-item">
+        <a class="nav-link c-pointer" ng-show="userLogged" ng-click="vm.logout()">
+        <!-- ng-style="vm.ativo ? {'color':'#fff'} : {}" -->
+        <!-- ng-class="{'active': vm.ativo}" -->
           Logout
         </a>
       </li>
-      <li class="nav-item" ng-hide="vm.logado">
-        <a class="nav-link c-pointer" ng-click="vm.register = false;"
-        ng-class="{'active': !vm.logado && !vm.register}">
+      <li class="nav-item">
+        <a class="nav-link c-pointer" ng-hide="userLogged" ng-click="vm.go('/login')"
+        ng-class="{'active': page === 'login'}">
           Login
         </a>
       </li>
-      <li class="nav-item" ng-hide="vm.logado">
-        <a class="nav-link c-pointer" ng-click="vm.register = true;"
-        ng-class="{'active': vm.register}">
+      <li class="nav-item">
+        <a class="nav-link c-pointer" ng-click="vm.go('/register')"
+        ng-class="{'active': page === 'register'}">
           Register
         </a>
       </li>

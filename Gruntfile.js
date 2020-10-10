@@ -8,13 +8,13 @@ function configGrunt(grunt) {
   grunt.initConfig({
     copy: {
       dist: {
-        src: ['**/*.html'],
+        src: ['**/**.html'],
         cwd: srcDir,
         dest: buildDir,
         expand: true
       },
       all: {
-        src: ['**/*.html'],
+        src: ['**/**.*'],
         cwd: srcDir,
         dest: buildDir,
         expand: true

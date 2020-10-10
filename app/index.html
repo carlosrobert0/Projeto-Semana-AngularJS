@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 
-<html lang="pt-BR" ng-app="listaComprasApp">
+<html ng-app="listaComprasApp" lang="pt-BR">
 
 <head>
   <meta charset="UTF-8">
@@ -13,26 +13,34 @@
   <script src="http://localhost:35729/livereload.js"></script>
 
   <script src="vendor/angular/angular.js"></script>
+  <script src="vendor/angular-route/angular-route.js"></script>
   
   <script src="lista-compras.module.js"></script>
   <script src="lista-compras.routes.js"></script>
+  <script src="lista-compras.service.js"></script>
+
+  <script src="utilities/constantes.js"></script>
+  <script src="utilities/helper.factory.js"></script>
 
   <script src="header.controller.js"></script>
   <script src="acesso/acesso.controller.js"></script>
 </head>
 
 <body>
+
   <header ng-include="'./header.tpl.html'"></header>
   <!-- ### ESPAÇO ALERTAS ### -->
   <div id="alertas" class="container" ng-show="listaMensagens.length">
     <div ng-repeat="msg in listaMensagens" class="alert alert-{{msg.tipo}}" role="alert">
-      {{msg.text}}
+      {{msg.text}} {{msg.acao}}
       <button type="button" class="close" aria-label="Close"
         ng-click="listaMensagens.splice($index, 1)">
         <span aria-hidden="true">&times;</span>
       </button>
     </div>
   </div>
+
+  <ng-view></ng-view>
 
   <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
   integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
