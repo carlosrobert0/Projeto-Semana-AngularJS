@@ -4,25 +4,18 @@
   angular.module('listaComprasApp')
     .controller('HeaderController', headerController)
 
-  headerController.$inject = ['$location', 'ListaComprasService', 'helperFactory']
+  headerController.$inject = ['ListaComprasService', 'helperFactory'];
 
-  function headerController($location, service, helper) {
+  function headerController(service, helper) {
     var vm = this;
 
-    vm.go = go;
-    vm.serviceF = serviceF
+    vm.go = helper.go;
     vm.logout = logout
-    
-    vm.ativo = false 
+    vm.iniciar = iniciar;
+    vm.serviceF = serviceF;
 
-    function go(_path) {
-      var path = _path ? _path : $location.path()
-      if (path === '/login' || path === '/register') {
-        $location.path(path)
-      } else {
-        isLoggedIn(path)
-      }
-      setPage()
+    function iniciar() {
+      vm.go();
     }
 
     function serviceF(_path) {
@@ -33,20 +26,8 @@
     }
 
     function logout() {
-      helper.setRootScope('page', null)
-    }
-    
-    function isLoggedIn(_path) {
-      if (helper.getRootScope('userLogged')) {
-        $location.path(_path)
-      } else {
-        $location.path('/login')
-        helper.addMsg('Você não tem acesso a esta página.', 'danger', 'Faça o login.')
-      }
-    }
-
-    function setPage() {
-      helper.setRootScope('page', $location.path().substring(1))
+      helper.setRootScope('userLogged', null)
+      helper.path('/login');
     }
   }
 

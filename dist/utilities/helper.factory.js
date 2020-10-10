@@ -4,9 +4,14 @@
   angular.module('listaComprasApp')
     .factory('helperFactory', helperFactory)
 
-  helperFactory.$inject = ['$rootScope', 'constantes']
+  helperFactory.$inject = [
+    '$rootScope',
+    '$location',
+    'constantes',
+    'capitalizeFilter'
+  ];
 
-  function helperFactory($rootScope, constantes) {
+  function helperFactory($rootScope, $location, constantes, capitalize) {
 
     return {
       addMsg: addMsg,
@@ -14,6 +19,8 @@
       getRootScope: getRootScope,
       sendError: sendError,
       path: path,
+      go: go,
+
     }
 
     function addMsg(_msg, _tipo, _acao) {
@@ -44,6 +51,36 @@
     function sendError(_error) {
       return { error: true, msg: _error.data.message }
     }
+
+    function go(_path) {
+      $rootScope.listaMensagens = [];
+
+      var path = _path ? _path : $location.path();
+      if (path === '/login' || path === '/register') {
+        $location.path(path);
+      } else {
+        isLoggedIn(path);
+      }
+
+      $rootScope.page = setPage();
+
+      function isLoggedIn(_path) {
+        if ($rootScope.userLogged) {
+          $location.path(_path);
+        } else {
+          $location.path('/login');
+          addMsg(constantes.MENSAGENS.SEM_ACESSO, 'danger', 'Faça o login.');
+        }
+      }
+
+      function setPage() {
+        var page = $location.path().substring(1);
+        if (page.indexOf('/') === -1) return page;
+        var arr = page.split('/');
+        return capitalize(arr[0]) + ' | ' + capitalize(arr[1]);
+      }
+  }
+
   }
 
 })()

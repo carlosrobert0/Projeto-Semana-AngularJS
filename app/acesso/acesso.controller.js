@@ -9,16 +9,7 @@
   function acessoController(helper, service) {
     var vm = this
 
-    vm.tiposEmail = [
-      { id: 1, desc: '@hotmail.com', disable: false, tipo: 'geral' },
-      { id: 2, desc: '@outlook.com', disable: false, tipo: 'geral' },
-      { id: 3, desc: '@gmail.com', disable: false, tipo: 'geral' },
-      { id: 4, desc: '@stefanini.com', disable: false, tipo: 'corporativo' },
-      { id: 5, desc: '@yahoo.com.br', disable: true, tipo: 'geral' },
-      { id: 6, desc: '@empresas.com.br', disable: false, tipo: 'corporativo' },
-      { id: 7, desc: '@teste.com', disable: true, tipo: 'corporativo' },
-    ]
-
+    vm.go = helper.go
     vm.logar = logar
     vm.cadastrar = register
 
@@ -28,8 +19,11 @@
           if (_resp.error) {
             helper.addMsg(_resp.msg, 'danger')
           } else {
-            helper.addMsg(_resp.message, 'success')
             helper.setRootScope('userLogged', _resp.userLogged)
+            
+            helper.path('/home');
+            helper.addMsg(_resp.message, 'success');
+
           }
         })
     }
@@ -42,16 +36,20 @@
         password: vm.user.password,
       }
       return service.register(newUser)
-        .then(function(_resp) {
-          if (_resp.error) {
-            helper.addMsg(_resp.msg, 'danger', 'Tente novamente')
-          } else {
-            helper.addMsg(_resp.message, 'success')
-            helper.path('/home')
-            helper.setRootScope('userLogged', _resp.userLogged)
-          }
-        })
+        .then(tratarRes)
     }
+
+    function tratarRes(_resp) {
+      if (_resp.error) {
+        helper.addMsg(_resp.msg, 'danger', 'Tente novamente');
+      } else {
+        helper.addMsg(_resp.message, 'success');
+        helper.path('/home');
+        helper.setRootScope('userLogged', _resp.userLogged);
+      }
+
+    }
+
   }
 
 })()
